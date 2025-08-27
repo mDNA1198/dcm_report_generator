@@ -46,7 +46,7 @@ Manish Garhwal
 
 If you find this project useful and want to support its development, consider buying me a coffee:
 
-<a href="https://www.buymeacoffee.com/manish.garhwal" target="_blank"> <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" height="50" alt="Buy Me A Coffee" /> </a>
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/X8X31KCK18)
 
 ---
 🤝 Contributing
