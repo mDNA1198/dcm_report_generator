@@ -1,0 +1,35 @@
+<idea-plugin>
+
+
+    <id>com.manishgarhwal.dcmreport</id>
+    <name>DCM Report Generator</name>
+    <version>1.0.0</version>
+    <vendor email="mgarhwal11@gmail.com">Manish Garhwal</vendor>
+
+    <description>
+        A simple plugin to generate DCM reports from the currently active file.
+    </description>
+
+
+
+    <depends>com.intellij.modules.platform</depends>
+
+    <actions>
+        <action id="GenerateDCMReport"
+                class="com.manishgarhwal.plugin.GenerateDCMReportAction"
+                text="Generate DCM Report"
+                description="Generate DCM report for the selected file">
+            <add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+
+        </action>
+    </actions>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <applicationConfigurable
+                instance="com.manishgarhwal.pluginSettings.DCMGeneratorConfigurable"
+                displayName="DCM Generator"/>
+    </extensions>
+
+</idea-plugin>
+
