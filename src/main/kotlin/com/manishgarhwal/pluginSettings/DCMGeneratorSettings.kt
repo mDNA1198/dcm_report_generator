@@ -6,7 +6,6 @@ import com.intellij.openapi.components.State
 import com.intellij.openapi.components.Storage
 
 import java.io.File
-import java.nio.file.Paths
 
 @Service(Service.Level.APP)
 @State(

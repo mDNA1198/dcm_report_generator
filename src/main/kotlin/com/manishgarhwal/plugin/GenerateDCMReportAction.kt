@@ -17,17 +17,17 @@ class GenerateDCMReportAction : AnAction() {
 
     override fun actionPerformed(e: AnActionEvent) {
         val project: Project? = e.project
-        val file = e.getData(CommonDataKeys.VIRTUAL_FILE)
+        val inputFile = e.getData(CommonDataKeys.VIRTUAL_FILE)
 
-        if (project == null || file == null) {
+        if (project == null || inputFile == null) {
             Messages.showErrorDialog("No active file selected!", "Generate DCM Report")
             return
         }
 
-        val inputFile = file.path
+        val inputFilePath = inputFile.path
         val outputFile = File(
-            file.parent.path,   // parent directory path (String)
-            file.nameWithoutExtension + "_dcm_report.html"
+            inputFile.parent.path,   // parent directory path (String)
+            inputFile.nameWithoutExtension + "_dcm_report.html"
         )
 
         // Create a dedicated folder for the report
@@ -36,12 +36,12 @@ class GenerateDCMReportAction : AnAction() {
         }
 
         // Command: generates report inside reportDir
-        val settings = DCMGeneratorSettings.getInstance().state
-        val dartPath = settings.dartSdkPath + "/dart"
+        val pluginSettings = DCMGeneratorSettings.getInstance().state
+        val dartSDKPath = pluginSettings.dartSdkPath + "/dart"
 
-        val command = listOf<String>(
-            dartPath, "run", "dart_code_metrics:metrics",
-            inputFile,
+        val dcmReportGeneratorCommand = listOf<String>(
+            dartSDKPath, "run", "dart_code_metrics:metrics",
+            inputFilePath,
             "-r", "html",
             "-o", outputFile.absolutePath
         )
@@ -50,7 +50,7 @@ class GenerateDCMReportAction : AnAction() {
             override fun run(indicator: ProgressIndicator) {
                 indicator.text = "Running dart_code_metrics..."
                 try {
-                    val process = ProcessBuilder(command)
+                    val process = ProcessBuilder(dcmReportGeneratorCommand)
                         .directory(File(project.basePath!!))
                         .redirectErrorStream(true)
                         .start()
@@ -62,10 +62,10 @@ class GenerateDCMReportAction : AnAction() {
                         val indexFile = File(outputFile, "index.html")
                         val vFile = LocalFileSystem.getInstance().refreshAndFindFileByIoFile(indexFile)
                         if (vFile != null) {
-                            if(settings.openInIDE){
+                            if(pluginSettings.openInIDE){
                                 openHTMLReportInIDE(project, vFile)
                             }
-                            if(settings.openInBrowser){
+                            if(pluginSettings.openInBrowser){
                                 openHtmlReportInBrowser(vFile.path)
                             }
                         }
